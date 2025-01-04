@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050505">
+
+    <title>robert.leitl.dev</title>
+    <meta property="og:title" content="robert.leitl.dev">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://robert.leitl.dev">
+    <meta property="og:image" content="https://robert.leitl.dev/og-image.png">
+
+    <link rel="preload" href="/assets/font.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <script type="module" crossorigin src="/index-ypfM8mfP.js"></script>
+    <link rel="stylesheet" crossorigin href="/index-CUMWq_tQ.css">
+  </head>
+  <body>
+    <div id="preloader"></div>
+
+    <div id="intro">
+      <div class="intro-text">
+        <div class="description">
+          <h1>Hi,</h1>
+          <p>my name is Robert Leitl and welcome to my playground. Here you can find links to some of my web experiments and other projects.</p>
+          <p>These are mainly results from my efforts to understand graphics programming, so some things may not work as intended or may not run at all. Have&nbsp;fun!</p>
+        </div>
+        <div class="action-row">
+          <div class="interaction-hint">
+            <video preload="none" muted loop playsinline autoplay>
+              <source src="/assets/interaction-hint.mp4" type="video/mp4">
+            </video>
+            <p><em>Use touch/click and drag, arrow keys or buttons for navigation.</em></p>
+          </div>
+          <button id="start-button" class="link-button" disabled style="display: none"><span class="icon"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="grid-menu-canvas"></canvas>
+
+    <div id="scroll-focus-marker">
+      <label></label>
+    </div>
+
+    <div id="hud" style="position: absolute; top:0; left: 0; z-index: 10; display: none; flex-direction: column; justify-content: space-between;">
+      <div role="presentation" class="focus-marks-container">
+        <div class="focus-mark tl"><div class="mark"></div></div>
+        <div class="focus-mark tr"><div class="mark"></div></div>
+        <div class="focus-mark bl"><div class="mark"></div></div>
+        <div class="focus-mark br"><div class="mark"></div></div>
+      </div>
+      <header>
+        <div class="logo-container">
+          <img class="logo" role="presentation" src="data:image/svg+xml,%3csvg%20width='32'%20height='42'%20viewBox='0%200%2032%2042'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_953_3495)'%3e%3cpath%20d='M15.9506%2024.6006C15.5129%2024.5975%2015.0942%2024.4215%2014.7857%2024.1109C14.4773%2023.8003%2014.3043%2023.3803%2014.3043%2022.9426C14.3027%2022.7254%2014.3441%2022.51%2014.4262%2022.3089C14.5082%2022.1078%2014.6293%2021.925%2014.7823%2021.7708C14.9353%2021.6167%2015.1173%2021.4944%2015.3178%2021.4109C15.5184%2021.3274%2015.7334%2021.2845%2015.9506%2021.2845H20.1464C20.5571%2021.2845%2020.9637%2021.2034%2021.3431%2021.046C21.7224%2020.8886%2022.067%2020.658%2022.3571%2020.3672L30.3536%2012.3708C30.7763%2011.9482%2031.1117%2011.4465%2031.3405%2010.8942C31.5693%2010.342%2031.6871%209.75005%2031.6871%209.15228C31.6871%208.5545%2031.5693%207.96259%2031.3405%207.41034C31.1117%206.8581%2030.7763%206.35633%2030.3536%205.93372L25.5933%201.1735C24.8412%200.420954%2023.8209%20-0.00203704%2022.7569%20-0.00244141H11.7995C10.7355%20-0.00203704%209.71527%200.420954%208.96313%201.1735L1.17839%208.95825C0.805137%209.33021%200.509093%209.77228%200.307282%2010.2591C0.105471%2010.7458%200.00187355%2011.2677%200.00244375%2011.7946V36.1037C0.00284359%2036.4458%200.104591%2036.7801%200.294822%2037.0644C0.485053%2037.3486%200.755224%2037.5702%201.07127%2037.701C1.38732%2037.8319%201.73505%2037.8662%202.07057%2037.7995C2.40608%2037.7329%202.71435%2037.5684%202.95643%2037.3267L7.97064%2032.3007C9.17643%2031.0932%209.85322%2029.4563%209.85215%2027.7498V15.6658C9.85198%2014.908%209.55079%2014.1813%209.01486%2013.6456L4.69915%209.32984C4.5447%209.17543%204.42219%208.99211%204.33859%208.79034C4.255%208.58857%204.21195%208.3723%204.21195%208.1539C4.21195%207.9355%204.255%207.71924%204.33859%207.51747C4.42219%207.3157%204.5447%207.13237%204.69915%206.97796C4.85357%206.8235%205.03689%206.70097%205.23867%206.61738C5.44044%206.53379%205.6567%206.49076%205.8751%206.49076C6.0935%206.49076%206.30976%206.53379%206.51153%206.61738C6.7133%206.70097%206.89663%206.8235%207.05104%206.97796L10.9269%2010.8539C11.0771%2011.0048%2011.2556%2011.1245%2011.4521%2011.2062C11.6487%2011.2879%2011.8595%2011.33%2012.0723%2011.33C12.2852%2011.33%2012.496%2011.2879%2012.6925%2011.2062C12.8891%2011.1245%2013.0676%2011.0048%2013.2177%2010.8539L22.0279%202.05546C22.1821%201.90072%2022.3654%201.77795%2022.5672%201.69418C22.769%201.61041%2022.9853%201.56729%2023.2038%201.56729C23.4223%201.56729%2023.6386%201.61041%2023.8404%201.69418C24.0422%201.77795%2024.2255%201.90072%2024.3798%202.05546C24.5345%202.20971%2024.6573%202.39299%2024.741%202.59478C24.8248%202.79658%2024.8679%203.01291%2024.8679%203.2314C24.8679%203.44989%2024.8248%203.66623%2024.741%203.86802C24.6573%204.06982%2024.5345%204.25309%2024.3798%204.40735L15.0663%2013.7208C14.4703%2014.3156%2013.9974%2015.022%2013.6746%2015.7997C13.3518%2016.5773%2013.1853%2017.4109%2013.1848%2018.2529V27.7545C13.1837%2029.461%2013.8605%2031.0979%2015.0663%2032.3054L24.0928%2041.332C24.3062%2041.5462%2024.5599%2041.7162%2024.8392%2041.832C25.1185%2041.9479%2025.4179%2042.0073%2025.7203%2042.007H30.2924C30.4825%2042.0073%2030.6709%2041.9701%2030.8466%2041.8975C31.0224%2041.825%2031.1821%2041.7185%2031.3167%2041.5841C31.4512%2041.4498%2031.558%2041.2903%2031.6308%2041.1146C31.7037%2040.939%2031.7411%2040.7507%2031.7411%2040.5606V35.9791C31.7408%2035.3685%2031.498%2034.7831%2031.0662%2034.3516L22.2325%2025.5179C21.9424%2025.2271%2021.5978%2024.9965%2021.2184%2024.8391C20.8391%2024.6817%2020.4324%2024.6007%2020.0217%2024.6006H15.9506Z'%20fill='%23FEFEFE'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0_953_3495'%3e%3crect%20width='31.7411'%20height='42'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e">
+          <img class="word-mark" role="presentation" src="data:image/svg+xml,%3csvg%20width='114'%20height='43'%20viewBox='0%200%20114%2043'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M6.9213%203.05658C6.9213%201.24054%205.95613%200.338864%204.08929%200.338864H1.18108V9H2.57803V5.82509H3.41621L5.32115%209H6.8832L4.96556%205.85049V5.7489C6.26092%205.4949%206.9213%204.61863%206.9213%203.10738V3.05658ZM5.53704%203.10738C5.53704%204.13605%205.23225%204.52973%204.08929%204.52973H2.57803V1.64692H4.08929C5.23225%201.64692%205.53704%202.01521%205.53704%203.05658V3.10738Z'%20fill='white'/%3e%3cpath%20d='M22.0035%209.12699C23.7306%209.12699%2024.9498%208.07292%2024.9498%205.95209V3.38677C24.9498%201.26594%2023.7306%200.211868%2022.0035%200.211868H21.9273C20.2001%200.211868%2018.981%201.26594%2018.981%203.38677V5.95209C18.981%208.07292%2020.2001%209.12699%2021.9273%209.12699H22.0035ZM21.9273%207.85703C20.8732%207.85703%2020.3906%207.38715%2020.3906%205.95209V3.38677C20.3906%201.95171%2020.8732%201.48183%2021.9273%201.48183H22.0035C23.0575%201.48183%2023.5401%201.95171%2023.5401%203.38677V5.95209C23.5401%207.38715%2023.0575%207.85703%2022.0035%207.85703H21.9273Z'%20fill='white'/%3e%3cpath%20d='M41.7591%204.45354C42.5338%204.18684%2042.9656%203.61536%2042.9656%202.70099V2.59939C42.9656%201.17704%2042.0131%200.338864%2040.324%200.338864H37.4666V9H40.6415C42.3052%209%2043.283%208.16182%2043.283%206.65057V6.56167C43.283%205.4695%2042.7116%204.83452%2041.7591%204.60593V4.45354ZM40.3494%201.64692C41.2638%201.64692%2041.5686%201.95171%2041.5686%202.73909V2.78989C41.5686%203.62806%2041.2638%203.95825%2040.3494%203.95825H38.8509V1.64692H40.3494ZM41.8861%206.49817C41.8861%207.36175%2041.5686%207.69194%2040.6669%207.69194H38.8509V5.25361H40.6669C41.5686%205.25361%2041.8861%205.5838%2041.8861%206.43468V6.49817Z'%20fill='white'/%3e%3cpath%20d='M61.1591%200.338864H55.711V9H61.1591V7.69194H57.1207V5.29171H60.2321V3.99635H57.1207V1.64692H61.1591V0.338864Z'%20fill='white'/%3e%3cpath%20d='M79.5432%203.05658C79.5432%201.24054%2078.578%200.338864%2076.7112%200.338864H73.803V9H75.1999V5.82509H76.0381L77.9431%209H79.5051L77.5875%205.85049V5.7489C78.8828%205.4949%2079.5432%204.61863%2079.5432%203.10738V3.05658ZM78.1589%203.10738C78.1589%204.13605%2077.8542%204.52973%2076.7112%204.52973H75.1999V1.64692H76.7112C77.8542%201.64692%2078.1589%202.01521%2078.1589%203.05658V3.10738Z'%20fill='white'/%3e%3cpath%20d='M91.387%200.338864V1.64692H93.8761V9H95.2858V1.64692H97.7749V0.338864H91.387Z'%20fill='white'/%3e%3cpath%20d='M113.708%209V7.10775H111.778V9H113.708Z'%20fill='white'/%3e%3cpath%20d='M2.81933%2017.3389H1.40967V26H6.71811V24.6919H2.81933V17.3389Z'%20fill='white'/%3e%3cpath%20d='M24.8482%2017.3389H19.4001V26H24.8482V24.6919H20.8097V22.2917H23.9211V20.9964H20.8097V18.6469H24.8482V17.3389Z'%20fill='white'/%3e%3cpath%20d='M42.8513%2017.3389H37.3904V18.6469H39.4097V24.6919H37.3904V26H42.8513V24.6919H40.8193V18.6469H42.8513V17.3389Z'%20fill='white'/%3e%3cpath%20d='M55.076%2017.3389V18.6469H57.5651V26H58.9748V18.6469H61.4639V17.3389H55.076Z'%20fill='white'/%3e%3cpath%20d='M75.4412%2017.3389H74.0316V26H79.34V24.6919H75.4412V17.3389Z'%20fill='white'/%3e%3cpath%20d='M95.5524%2026V24.1078H93.6221V26H95.5524Z'%20fill='white'/%3e%3cpath%20d='M0.952484%2034.3389V43H3.84799C5.57514%2043%206.7943%2041.9459%206.7943%2039.8251V37.5138C6.7943%2035.3929%205.57514%2034.3389%203.84799%2034.3389H0.952484ZM5.38465%2039.8251C5.38465%2041.2601%204.90206%2041.6919%203.84799%2041.6919H2.36214V35.6469H3.84799C4.90206%2035.6469%205.38465%2036.066%205.38465%2037.5138V39.8251Z'%20fill='white'/%3e%3cpath%20d='M24.8482%2034.3389H19.4001V43H24.8482V41.6919H20.8097V39.2917H23.9211V37.9963H20.8097V35.6469H24.8482V34.3389Z'%20fill='white'/%3e%3cpath%20d='M41.2003%2043L43.4735%2034.3389H42.0131L40.2224%2041.6919H40.0827L38.2667%2034.3389H36.7682L39.0922%2043H41.2003Z'%20fill='white'/%3e%3c/svg%3e">
+        </div>
+        <button class="site-menu-button" role="button" aria-label="site menu button">
+          <img role="presentation" src="data:image/svg+xml,%3csvg%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20x='4'%20y='7'%20width='24'%20height='2'%20fill='%23FEFEFE'/%3e%3crect%20x='4'%20y='15'%20width='24'%20height='2'%20fill='%23FEFEFE'/%3e%3crect%20x='4'%20y='23'%20width='24'%20height='2'%20fill='%23FEFEFE'/%3e%3c/svg%3e">
+        </button>
+      </header>
+      <main>
+        <ol id="project-list">
+          <li>
+            <h1>Arcade</h1>
+            <img  srcset="/assets/22-520.jpg 520w, /assets/22-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/22-520.jpg"
+                  alt="Arcade screenshot">
+            <p><em>Arcade</em>Retro sound machine with excessive bloom flares thanks to FFT convolution.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/arcade/dist/"
+               aria-label="Open arcade demo in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="assets/video/22-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/22-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Diffuse Time</h1>
+            <img  srcset="/assets/21-520.jpg 520w, /assets/21-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/21-520.jpg"
+                  alt="Diffuse time screenshot">
+            <p><em>Diffuse Time</em>WebGPU demo for my tutorial on Codrops.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/webgpu-reaction-diffusion/"
+               aria-label="Open diffuse times demo in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/21-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/21-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Pattern Drift</h1>
+            <img  srcset="/assets/20-520.jpg 520w, /assets/20-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/20-520.jpg"
+                  alt="Pattern drift screenshot">
+            <p><em>Pattern Drift</em>WebGPU learning project in which reaction-diffusion patterns are generated in a compute-shader based on a fake-fluid simulation input.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/pattern-drift/dist/"
+            aria-label="Open pattern-drift project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/20-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/20-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Boris</h1>
+            <img  srcset="/assets/19-520.jpg 520w, /assets/19-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/19-520.jpg"
+                  alt="Boris screenshot">
+            <p><em>Boris</em>Another creepy sphere using the shell texturing technique and poisson disc-sampling on the sphere surface.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/boris/dist/"
+            aria-label="Open boris project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/19-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/19-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Fuel-<br>Cell</h1>
+            <img  srcset="/assets/18-520.jpg 520w, /assets/18-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/18-520.jpg"
+                  alt="Toy bricks screenshot">
+            <p><em>Fuel-Cell</em>Simple contained liquid simulation with glass fog and overuse of bloom.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/fuel-cell/dist/"
+            aria-label="Open fuel-cell project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/18-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/18-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Toy-<br>Bricks</h1>
+            <img  srcset="/assets/17-520.jpg 520w, /assets/17-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/17-520.jpg"
+                  alt="Toy bricks screenshot">
+            <p><em>Toy-Bricks</em>Primitive, unoptimized subsurface scattering implementation.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/toy-bricks/dist/"
+            aria-label="Open toy-bricks project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/17-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/17-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Obsi<br>dian</h1>
+            <img  srcset="/assets/16-520.jpg 520w, /assets/16-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/16-520.jpg"
+                  alt="Obsidian screenshot">
+            <p><em>Obsidian</em>Extrem HDR bloom effect with device orientation interaction.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/obsidian/dist/"
+            aria-label="Open obsidian project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/16-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/16-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Symbi<br>ont</h1>
+            <img  srcset="/assets/15-520.jpg 520w, /assets/15-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/15-520.jpg"
+                  alt="Symbiont screenshot">
+            <p><em>Symbiont</em>Interactive physarum particle simulation on a sphere surface.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/symbiont/dist/"
+            aria-label="Open symbiont project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/15-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/15-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Phase<br>Trans<br>ition</h1>
+            <img  srcset="/assets/14-520.jpg 520w, /assets/14-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/14-520.jpg"
+                  alt="Phase transition screenshot">
+            <p><em>Phase Transition</em>Interactive animation between water and ice shading.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/phase-transition/dist/"
+            aria-label="Open phase-transition project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/14-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/14-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Liquid<br>Geo</h1>
+            <img  srcset="/assets/13-520.jpg 520w, /assets/13-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/13-520.jpg"
+                  alt="Liquid geo screenshot">
+            <p><em>Liquid Geo</em>Interactive audio recorder and visualizer.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/liquid-geo/dist/"
+            aria-label="Open liquid-geo project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/13-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/13-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Ferro<br>Fluid</h1>
+            <img  srcset="/assets/12-520.jpg 520w, /assets/12-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/12-520.jpg"
+                  alt="Ferrofluid screenshot">
+            <p><em>Ferrofluid</em>Interactive ferrofluid simulation which responds to audio input.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/ferrofluid/dist/"
+            aria-label="Open ferrofluid project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/12-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/12-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Fluid<br>Simu-<br>lation</h1>
+            <img  srcset="/assets/11-520.jpg 520w, /assets/11-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/11-520.jpg"
+                  alt="SPH screenshot">
+            <p><em>Fluid Simulation</em>Smoothed particle hydrodynamics fluid simulation running on the GPU using native WebGL&nbsp;2.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/gpgpu-2d-sph-fluid-simulation/dist/?debug=true"
+            aria-label="Open SPH project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/11-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/11-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Paper-<br>clips</h1>
+            <img  srcset="/assets/10-520.jpg 520w, /assets/10-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/10-520.jpg"
+                  alt="Paperclips screenshot">
+            <p><em>Paperclips</em>Physics simulation using the ammo.js engine and native webgl rendering accompanied by synthetic sound effects created with tone.js</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/paperclips/dist/"
+            aria-label="Open paperclips project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/10-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/10-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Prima-<br>vera</h1>
+            <img  srcset="/assets/09-520.jpg 520w, /assets/09-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/09-520.jpg"
+                  alt="Primavera screenshot">
+            <p><em>Primavera</em>Plant growth simulation inside a frosted glass vessel accompanied by synthetic music created with tone.js.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/primavera/dist/"
+            aria-label="Open primavera project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/09-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/09-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Luci-<br>ferin</h1>
+            <img  srcset="/assets/08-520.jpg 520w, /assets/08-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/08-520.jpg"
+                  alt="Luciferin screenshot">
+            <p><em>Luciferin</em>GPGPU particles bound within a capsule SDF that includes a fake refraction effect.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/luciferin/dist/?debug"
+            aria-label="Open luciferin project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/08-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/08-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>SSAO</h1>
+            <img  srcset="/assets/07-520.jpg 520w, /assets/07-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/07-520.jpg"
+                  alt="SSAO screenshot">
+            <p><em>SSAO</em>Rough implementation of a screen space ambient occlusion method.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/ssao-demo/dist/?debug"
+            aria-label="Open ssao project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/07-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/07-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Hexa-<br>gonal<br>Bokeh</h1>
+            <img  srcset="/assets/06-520.jpg 520w, /assets/06-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/06-520.jpg"
+                  alt="Hexagonal bokeh screenshot">
+            <p><em>Hexagonal Bokeh</em>Implementation of a hexagonal scatter blur in two passes.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/hexagonal-bokeh-blur/dist/"
+            aria-label="Open hexagonal bokeh blur project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/06-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/06-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Depth<br>Field</h1>
+            <img  srcset="/assets/05-520.jpg 520w, /assets/05-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/05-520.jpg"
+                  alt="Depth of field screenshot">
+            <p><em>Depth of Field</em>Rough implementation of the depth of field method described in GPU&nbsp;Pro<sup>4</sup>.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/depth-of-field-skylanders/dist/"
+            aria-label="Open depth of field project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/05-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/05-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Mime-<br>sis</h1>
+            <img  srcset="/assets/04-520.jpg 520w, /assets/04-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/04-520.jpg"
+                  alt="Mimesis screenshot">
+            <p><em>Mimesis</em>Mapping facial expression to six different emotions which are represented by form, texture, animation, and sound.</p>
+            <a class="project-link link-button" href="https://robert-leitl.github.io/mimesis/dist/"
+            aria-label="Open mimesis project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/04-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/04-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Shader<br>ground</h1>
+            <img  srcset="/assets/03-520.jpg 520w, /assets/03-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/03-520.jpg"
+                  alt="Shader playground screenshot">
+            <p><em>Shader Ground</em>A selection from my shader learning attempts. </p>
+            <a class="project-link link-button" href="https://robert.leitl.dev/artifacts/shader-playground"
+            aria-label="Open shader playground in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/03-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/03-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Ofform</h1>
+            <img  srcset="/assets/02-520.jpg 520w, /assets/02-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/02-520.jpg"
+                  alt="Ofform screenshot">
+            <p><em>Ofform</em>Personal website from 2021 built with PIXI.js and Angular.</p>
+            <a class="project-link link-button" href="https://robert.leitl.dev/artifacts/ofform"
+            aria-label="Open portfolio website in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/02-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/02-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Azu-<br>lejos</h1>
+            <img  srcset="/assets/01-520.jpg 520w, /assets/01-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/01-520.jpg"
+                  alt="Azulejos screenshot">
+            <p><em>Azulejos</em>Web experiment for generating and animating mosaics.</p>
+            <a class="project-link link-button" href="https://robert.leitl.dev/artifacts/azulejos/#/object/cylinder"
+            aria-label="Open azulejos demo project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/01-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/01-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+          <li>
+            <h1>Libro</h1>
+            <img  srcset="/assets/00-520.jpg 520w, /assets/00-1080.jpg 1080w"
+                  sizes="(max-width: 800px) 520px,
+                          1080px"
+                  src="/assets/00-520.jpg"
+                  alt="Libro screenshot">
+            <p><em>Libro</em>Physics engine simulating the turning pages of a book.</p>
+            <a class="project-link link-button" href="https://robert.leitl.dev/artifacts/libro/dist/"
+            aria-label="Open libro demo project in new window" target="_blank"><span class="icon">view</span></a>
+            <video class="video-small" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/00-520.mp4" type="video/mp4">
+            </video>
+            <video class="video-large" preload="none" controls="false" muted loop playsinline>
+              <source src="/assets/00-1080.mp4" type="video/mp4">
+            </video>
+          </li>
+        </ol>
+      </main>
+
+
+      <div id="site-menu" class="hidden">
+
+        <div class="row">
+          <div class="about">
+            <p class="info-text">
+              Hi, my name is Robert Leitl. I'm a developer and designer from <a href="https://en.wikipedia.org/wiki/Salzburg" target="_blank" aria-label="Link to Salzburg wikipedia page">Salzburg</a>.
+              Since 2010 I have been working at <a href="https://www.atuin.media" target="_blank" aria-label="Link to atuin.media company website">atuin.media</a> GmbH which I co-founded.
+              I am enthusiastic about the design and implementation of interactive, digital projects. Lately, I've been curious about web-based graphics programming and wanted to learn more about it.
+            </p>
+            <p>This playground is a result of my efforts. Some projects may not work as intended or may not run at all. As I go along, new projects will be added to the playground.</p>
+          </div>
+          <div class="recognitions">
+            <p>Recognitions:</p>
+            <ul>
+              <li>Best Website Designs Article on <a href="https://www.designrush.com/best-designs/websites/robert-leitl-portfolio-website-design" target="_blank">DesignRush</a></li>
+              <li>Honorable Mention on <a href="https://www.awwwards.com/sites/robert-leitl-portfolio-2022" target="_blank">Awwward</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="social-link-list">
+          <li>
+            <a href="https://tympanus.net/codrops/author/robert/" target="_blank" aria-label="Link to my codrops page"><em>codrops</em></a>
+          </li>
+          <li>
+            <a href="https://github.com/robert-leitl" target="_blank" aria-label="Link to my github page"><em>github</em></a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/robert-leitl/" target="_blank" aria-label="Link to my linkedin page"><em>linkedin</em></a>
+          </li>
+          <li>
+            <a href="https://codepen.io/robert-leitl" target="_blank" aria-label="Link to my codepen page"><em>codepen</em></a>
+          </li>
+          <li>
+            <a href="https://robert-leitl.medium.com" target="_blank" aria-label="Link to my medium page"><em>medium</em></a>
+          </li>
+        </ul>
+      </div>
+
+      <footer>
+        <button class="stepper-button-left" role="button" aria-label="step to previous project button">
+          <img role="presentation" src="data:image/svg+xml,%3csvg%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20x='9.69604'%20y='14.8676'%20width='14.6014'%20height='2'%20transform='rotate(45%209.69604%2014.8676)'%20fill='%23FEFEFE'/%3e%3crect%20x='20.0208'%20y='6.80756'%20width='14.9999'%20height='2'%20transform='rotate(135%2020.0208%206.80756)'%20fill='%23FEFEFE'/%3e%3c/svg%3e">
+        </button>
+        <button class="stepper-button-right" role="button" aria-label="step to next project button">
+          <img role="presentation" src="data:image/svg+xml,%3csvg%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20x='9.69604'%20y='14.8676'%20width='14.6014'%20height='2'%20transform='rotate(45%209.69604%2014.8676)'%20fill='%23FEFEFE'/%3e%3crect%20x='20.0208'%20y='6.80756'%20width='14.9999'%20height='2'%20transform='rotate(135%2020.0208%206.80756)'%20fill='%23FEFEFE'/%3e%3c/svg%3e">
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>
